@@ -1,0 +1,45 @@
+/*
+Problem #3 from ProjectEuler.net
+
+The prime factors of 13195 are 5, 7, 13 and 29.
+
+What is the largest prime factor of the number 600851475143 ?
+
+The solution below allowed me to claim the 311,897th correct answer (and the
+"Baby Steps" award). Yay!
+*/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    /* In order to test for prime factors, first I have to define what
+    those factors are... Or do I? My initial thought was to create a very
+    large array and fill it with prime numbers, then dividing the target
+    number by each one. On further thought, every composite number is both
+    larger than and a factor of smaller primes. If I use recursion, so that each
+    time the number is divided, I go back to the beginning, I will only come
+    up with prime numbers. The code is elegant, but it is unnecessarily
+    processor-intensive, because it checks composite numbers (if 3
+    doesn't work, why would 9?). */
+    
+    long long int product = 600851475143;  // Number is too large for a standard int.
+    int factor = 2;
+    
+    while(factor < product){ // The largest prime factor is when the factor = the product.
+        if(product % factor == 0){
+            cout << factor << " * ";
+            product /= factor;
+        }
+        else factor++;
+        /* My one concession to efficiency: the factor always increases. I catch
+        double factors by only having the factor increase when it isn't used. */
+    }
+    
+    cout << factor << "\nThe largest factor is: " << factor << endl;
+    
+    return 0;
+}
+
