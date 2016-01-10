@@ -1,0 +1,46 @@
+/*
+Problem #6 from ProjectEuler.net
+
+The sum of the squares of the first ten natural numbers is,
+
+12 + 22 + ... + 102 = 385
+The square of the sum of the first ten natural numbers is,
+
+(1 + 2 + ... + 10)2 = 552 = 3025
+Hence the difference between the sum of the squares of the first ten natural
+numbers and the square of the sum is 3025 − 385 = 2640.
+
+Find the difference between the sum of the squares of the first one hundred
+natural numbers and the square of the sum.
+
+The solution below allowed me to claim the 294,410th correct answer. Yay!
+*/
+
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    
+    /* This seems fairly straightforward, so I figured I'd compute both at
+    once in the same loop.
+    */
+    
+    int i = 1;
+    int limit = 100;
+    int sumfirst = 0;
+    int squarefirst = 0;
+    
+    while(i <= limit){
+        sumfirst += i;
+        squarefirst += i * i;
+        i++;
+    }
+    sumfirst = sumfirst * sumfirst;
+    
+    cout << "The sum of the squares: " << squarefirst <<
+            "\nThe square of the sums: " << sumfirst <<
+            "\nThe difference: " << sumfirst - squarefirst << endl;
+    
+    return 0;
+}
