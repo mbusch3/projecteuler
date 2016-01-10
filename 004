@@ -1,0 +1,87 @@
+/*
+Problem #4 from ProjectEuler.net
+
+A palindromic number reads the same both ways. The largest palindrome made from
+the product of two 2-digit numbers is 9009 = 91 × 99.
+
+Find the largest palindrome made from the product of two 3-digit numbers.
+
+The solution below allowed me to claim the 280,780th correct answer. Yay!
+*/
+
+#include <iostream>
+
+using namespace std;
+
+bool isPalindrome(int product){
+    
+    /* There was no handy function to check whether any given number was a 
+    palindrome, so I decided to do it myself, avoiding string conversion. 
+    I'm not particularly fond of the length of the palindrome-checking
+    function, but am happy with the processing speed and overall cleverness
+    of the solution. It could easily be adapted to be iterative for numbers
+    of any length. */
+    
+    /* The number of digits is limited to between 5 and 6, from 10,000
+    (100 x 100) and 998,001 (999 * 999). */
+    
+    int largest;
+    int smallest;
+    int power = 10000;  // 5-digit numbers: multiply the ones digit by this to check.
+    if(product > 99999) power = 100000; // 6-digit numbers: higher multiplier.
+    bool palindrome = true;
+    
+    // Example: If the number is 645,546
+    
+    smallest = product % 10;     // 6
+    largest = smallest * power;  // 600000
+    if(product > largest && product - largest < power){  // It's a palindrome so far!
+        product -= largest;      // 45,546
+        product -= smallest;     // 45,540
+        product /= 10;           // 4,554
+        power /= 100;            // 1,000
+    
+        smallest = product % 10;      // 4
+        largest = smallest * power;   // 4,000
+        if(product > largest && product - largest < power){ // Still a palindrome!
+            if(power == 1000){  // One last check...
+                product -= largest;
+                product -= smallest;
+                product /= 10;
+                power /= 100;
+                
+                smallest = product % 10;
+                largest = smallest * power;
+                if(product > largest && product - largest < power){}
+                else palindrome = false;
+            }
+        }
+        else palindrome = false;
+    }
+    else palindrome = false;
+    
+    return palindrome;
+}
+
+int main()
+{
+    int a = 999;
+    int b = 999;
+    int c;
+    int biggest = 0;
+    
+    while(a > 99){
+        while(b > 99){
+            c = a * b;
+            if(c < biggest) b = 0;
+            else if(isPalindrome(c)){
+                cout << c << " is a palindrome! (" << a << " * " << b << ")\n";
+                biggest = c;
+            }
+            b--;
+        }
+        a--;
+        b = a;
+    }
+    return 0;
+}
