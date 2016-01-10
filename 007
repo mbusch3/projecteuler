@@ -1,0 +1,67 @@
+/*
+Problem #7 from ProjectEuler.net
+
+By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that
+the 6th prime is 13.
+
+What is the 10 001st prime number?
+
+The solution below allowed me to claim the 252,326th correct answer. Yay!
+*/
+
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    
+    int primes [10001];
+    primes[0] = 2;  // I filled in the first bit of the array so I could avoid
+    primes[1] = 3;  // checking all the even composites. Counter += 2 below.
+    
+    int slot = 2;   // The index where the next prime will go.
+    
+    /* The most important optimization I did was to accommodate for the fact
+    that a composite number's smallest factor must be smaller than its square
+    root. In short, no number under 121 needs to check against any prime higher
+    than 7 to determine if it's prime. The highest prime that needs to be
+    checked is stored in the array under primes[highestIndex], and the value
+    of the factor squared is highest. If the number to be checked is higher than
+    highest, the next indexed prime is selected and its square becomes the limit
+    to check against. */
+    
+    int highestIndex = 1;
+    int highest = 9;
+    
+    int counter = 3;
+
+    bool prime = true;
+    
+    while(slot < 10001){
+        int i = 1;  // I've skipped index 0, since it has a 2 and I'm only checking odd numbers.
+        prime = true;  // Assume it's prime until proven otherwise.
+        while(i <= highestIndex){
+            if(counter % primes[i] == 0){
+                prime = false;
+                i = highestIndex;
+            }
+            i++;
+        }
+        
+        // If the number is prime, store it.
+        if(prime){
+            primes[slot] = counter;
+            slot++;
+        }
+        
+        counter+=2;  // Off to the next odd number!
+        if(counter >= highest){
+            highestIndex++;
+            highest = primes[highestIndex] * primes[highestIndex];
+        }
+    }
+    
+    cout << "Prime number #" << slot << " is " << primes[slot -1] << endl;
+    
+    return 0;
+}
