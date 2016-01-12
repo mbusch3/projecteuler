@@ -1,0 +1,27 @@
+public class HelloWorld{
+
+    public static int sumOfMultiples(int factor, int min, int max){
+        
+        /* I realize that this function is unnecessarily flexible for the problem at hand, but
+           I wanted to use variables for the min and max instead of just hardcoding limits.   */
+           
+        // Find the number of terms
+        int terms = max / factor - min / factor;
+        
+        // Find the top multiple and the bottom multiple (accommodating for non-zero minimums)
+        int maxPlusMin = (max / factor) * factor + (((min - 1) / factor) * factor) + factor;
+        
+        // All to do the sum of arithmetic sequence formula...
+        int sum = (maxPlusMin * terms) / 2;
+        return sum;
+    }
+
+     public static void main(String []args){
+        
+        // Solution is to add all of the multiples of both, then remove the numbers that were counted twice.
+        int solution = sumOfMultiples(3, 1, 999) + sumOfMultiples(5, 1, 999) - sumOfMultiples(15, 1, 999);
+        
+        System.out.println("The solution is: " + solution);
+        
+     }
+}
