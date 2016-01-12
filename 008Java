@@ -1,0 +1,39 @@
+public class HelloWorld{
+
+     public static void main(String []args){
+        
+        int a, b, c;
+        
+        for(a = 1; a < 333; a++){
+            
+            /* Initialize variables. Since we have the constraint that a + b + c = 1000,
+                a quick way to optimize is to only check numbers that have that sum. For
+                every a, we pick the two options for b and c that are closest together.
+                For example, when a is 1, b will be 499 and c will be 500.  */
+            
+            c = 500 - (a/2);
+            if(a%2 == 0) c += 1;
+            b = 1000 - c - a;
+            boolean outOfBounds = false;
+            
+            while(!outOfBounds){
+                
+                /* The logic here is that we will be moving b and c further and further
+                   away from each other. If a squared is too small, the more we move them,
+                   the worse the disparity, so checking for this value of a is done. */
+                checks++;
+                if(c*c - b*b > a*a) outOfBounds = true;
+                else if(c*c - b*b == a*a){  // You win!
+                   System.out.println("The solution set is: " + a + ", " + b + ", " + c);   
+                   int solution = a * b * c;
+                   System.out.println("a * b * c is: " + solution );
+                   outOfBounds = true;
+                   a = 333;
+                }
+                
+                c++;
+                b--;
+            }
+        }
+     }
+}
