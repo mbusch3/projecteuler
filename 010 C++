@@ -1,0 +1,53 @@
+/*
+Problem #10 from ProjectEuler.net
+
+The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+
+Find the sum of all the primes below two million.
+
+The solution below allowed me to claim the 200,437th correct answer. Yay!
+*/
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  /* While I could have used brute force by making the computer check against all integers
+   * lower than the square root of each number, I decided to store all the primes in an array
+   * as I found them. The highest number I'd ever have to store would be the square root of
+   * 2,000,000, which is 1414-ish. I figured 1500 slots should cover it. (Really, 750 would
+   * have been a safe bet, but let's not get too excited.)
+   */
+
+	int total = 2;
+	int tenMillions = 0;   // See below...
+	
+	int primes[1500][2] = { 2, 4 };
+	int highestIndex = 0;
+	int newIndex = 1;
+
+	for (int i = 3; i < 2000000; i+=2) {
+		bool prime = true;
+		for (int j = 0; prime && j <= highestIndex; j++) {
+			if (i % primes[j][0] == 0) prime = false;
+		}
+		if (prime) {
+			total += i;
+			if (total > 10000000) {
+				total -= 10000000;     // My compiler kept breaking whenever I used long, so
+				tenMillions += 1;      // this was my workaround to keep total under wraps.
+			}
+			if (i < 1500) {
+				primes[newIndex][0] = i;   // Saves the primes as we find them, to check against later.
+				primes[newIndex][1] = i * i;
+				newIndex += 1;
+			}
+		}
+		if (i + 2 >= primes[highestIndex][1]) highestIndex++;
+	}
+
+	cout << "\nThe total is: " << tenMillions << total << "\n";
+
+	return 0;
+}
