@@ -1,0 +1,50 @@
+/*
+Problem #14 from ProjectEuler.net
+
+The following iterative sequence is defined for the set of positive integers:
+
+n → n/2 (n is even)
+n → 3n + 1 (n is odd)
+
+Using the rule above and starting with 13, we generate the following sequence:
+
+13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+
+Which starting number, under one million, produces the longest chain?
+
+The solution below allowed me to claim the 140,687th correct answer. Yay!
+*/
+
+
+#include <iostream>
+using namespace std;
+
+int chainLength(long c) {
+	int length = 1;
+	while (c != 1) {
+		if (c % 2 == 0) c /= 2;
+		else c = 3 * c + 1;
+		length++;
+	}
+	return length;
+}
+
+
+int main()
+{
+	int maxInt = 1;
+	int max = 1;
+
+	for (int i = 1; i < 1000000; i++) {
+		int l = chainLength(i);
+		if (l > max) {
+			max = l;
+			maxInt = i;
+		}
+	}
+
+	cout << "Max length is " << max << " starting at " << maxInt << "\n";
+
+	return 0;
+}
